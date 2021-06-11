@@ -15,7 +15,7 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUsuario;
 	
-	@NotNull
+	
 	@Size(min = 2, max = 100)
 	private String nomeUsuario;
 	
@@ -27,8 +27,6 @@ public class Usuario {
 	@Size(min = 5)
 	private String senhaUsuario;
 
-	
-	
 	public Usuario(
 			@NotNull @Size(min = 2, max = 100) String nomeUsuario,
 			@NotNull @Size(min = 5, max = 100) String loginUsuario, 
@@ -38,7 +36,7 @@ public class Usuario {
 		this.loginUsuario = loginUsuario;
 		this.senhaUsuario = senhaUsuario;
 	}
-	
+
 	public Usuario() {
 		
 	}
