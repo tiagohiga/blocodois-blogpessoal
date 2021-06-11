@@ -2,6 +2,8 @@ package org.generation.blogPessoal.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.generation.blogPessoal.model.Postagem;
 import org.generation.blogPessoal.repository.PostagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +46,12 @@ public class PostagemController {
 	}
 	
 	@PostMapping("/postar")
-	public ResponseEntity<Postagem> post(@RequestBody Postagem postagem){
+	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem){
 		return ResponseEntity.status(201).body(repository.save(postagem));
 	}
 	
 	@PutMapping("/postar/editar")
-	public ResponseEntity<Postagem> put(@RequestBody Postagem postagem){
+	public ResponseEntity<Postagem> put(@Valid @RequestBody Postagem postagem){
 		return ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem));
 	}
 	
