@@ -10,13 +10,16 @@ import org.generation.blogPessoal.model.Usuario;
 import org.generation.blogPessoal.repository.UsuarioRepository;
 import org.generation.blogPessoal.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,30 +27,38 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UsuarioController {
 	@Autowired
-	private UsuarioService userServices;
+	private UsuarioService services;
 	
 	@Autowired
 	private UsuarioRepository repository;
 	
 	@PostMapping("/logar")
-	public ResponseEntity<UserLogin> authentication(@Valid @RequestBody Optional<UserLogin> user){
-		return userServices.logar(user)
-				.map(userLogado -> ResponseEntity.status(200).body(userLogado))
-				.orElse(ResponseEntity.status(401).build());
+	public ResponseEntity<Optional<UserLogin>> authentication(@Valid @RequestBody Optional<UserLogin> userLogado){
+		return services.logarUsuario(userLogado);
 	}
 	
 	@PostMapping("/cadastrar")
-	public ResponseEntity<Usuario> post(@Valid @RequestBody Usuario user){
-		return ResponseEntity.status(201).body(userServices.cadastrarUsuario(user));
+	public ResponseEntity<Usuario> cadastrarNovoUsuario(@Valid @RequestBody Usuario novoUsuario){
+		return services.cadastrarUsuario(novoUsuario);
+	}
+	
+	@PutMapping("/alterar")
+	public ResponseEntity<Usuario> alterarCadastro(@Valid @RequestBody Usuario usuarioAtual){
+		return services.alterarUsuario(usuarioAtual);
 	}
 	
 	@GetMapping("/todos")
-	public ResponseEntity<List<Usuario>> getAll(){
-		List<Usuario> listaGrupos = repository.findAll();
-		if(listaGrupos.isEmpty()) {
-			return ResponseEntity.status(204).build();
-		}else {
-			return ResponseEntity.status(HttpStatus.CREATED).body(listaGrupos);
-		}
+	public ResponseEntity<List<Usuario>> findAll(){
+		return services.encontrarTodosUsuarios();
+	}
+	
+	@GetMapping("/nome")
+	public ResponseEntity<List<Usuario>> findByNome(@RequestParam(name = "usuario", defaultValue = "") String nomeUsuario){
+		return services.encontrarUsuariosNome(nomeUsuario);
+	}
+	
+	@DeleteMapping("/deletar/{login_usuario}")
+	public ResponseEntity<String> deleteByLogin(@PathVariable(name = "login_usuario") String loginUsuario){
+		return services.deletarUsuario(loginUsuario);
 	}
 }
