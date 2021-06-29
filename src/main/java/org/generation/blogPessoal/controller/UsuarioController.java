@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.generation.blogPessoal.model.UserLogin;
 import org.generation.blogPessoal.model.Usuario;
-import org.generation.blogPessoal.repository.UsuarioRepository;
 import org.generation.blogPessoal.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
 	@Autowired
 	private UsuarioService services;
-	
-	@Autowired
-	private UsuarioRepository repository;
 	
 	@PostMapping("/logar")
 	public ResponseEntity<Optional<UserLogin>> authentication(@Valid @RequestBody Optional<UserLogin> userLogado){

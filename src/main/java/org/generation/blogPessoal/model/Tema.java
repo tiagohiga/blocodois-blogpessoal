@@ -26,11 +26,10 @@ public class Tema {
 	
 	//CascadeType.ALL = persistencia propagara todas as operacoes 
 	//(PERSIST, REMOVE, REFRESH, MERGE, DETACH) para as entidades relacionadas
-	@OneToMany(mappedBy = "tema", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("tema")
-	private List<Postagem> postagem;
+	@OneToMany(mappedBy = "temaPostagem", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("temaPostagem")
+	private List<Postagem> temaPostagens;
 
-	
 	public Tema(@NotNull String descricao) {
 		super();
 		this.descricao = descricao;
@@ -56,12 +55,11 @@ public class Tema {
 		this.descricao = descricao;
 	}
 
-	public List<Postagem> getPostagem() {
-		return postagem;
+	public List<Postagem> getTemaPostagens() {
+		return temaPostagens;
 	}
 
-	public void setPostagem(List<Postagem> postagem) {
-		this.postagem = postagem;
-	} 
-	
+	public void setTemaPostagens(List<Postagem> temaPostagens) {
+		this.temaPostagens = temaPostagens;
+	}
 }

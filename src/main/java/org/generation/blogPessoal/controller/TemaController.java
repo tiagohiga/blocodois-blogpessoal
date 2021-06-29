@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.generation.blogPessoal.model.Tema;
 import org.generation.blogPessoal.repository.TemaRepository;
+import org.generation.blogPessoal.service.TemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,34 +26,36 @@ public class TemaController {
 	@Autowired
 	private TemaRepository repository;
 	
+	@Autowired
+	private TemaService servicesTema;
+	
 	@GetMapping
 	public ResponseEntity<List<Tema>> getAll(){
-		return ResponseEntity.ok(repository.findAll());
+		return servicesTema.encontrarTodosTema();
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Tema> getById(@PathVariable long id){
-		return repository.findById(id).map(resp -> ResponseEntity.ok(resp))
-				.orElse(ResponseEntity.status(404).build());
+	public ResponseEntity<Tema> getById(@PathVariable long idTema){
+		return servicesTema.encontrarTemaId(idTema);
 	}
 	
 	@GetMapping("/nome/{nome}")
 	public ResponseEntity<List<Tema>> getByName(@PathVariable String nome){
-		return ResponseEntity.ok(repository.findAllByDescricaoContainingIgnoreCase(nome));
+		return servicesTema.encontrarTodosDescricao(nome);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Tema> post(@Valid @RequestBody Tema tema){
-		return ResponseEntity.status(201).body(repository.save(tema));
+	public ResponseEntity<Tema> criarTema(@Valid @RequestBody Tema novoTema){
+		return servicesTema.cadastrarTema(novoTema);
 	}
 	
 	@PutMapping("/editar")
-	public ResponseEntity<Tema> put(@Valid @RequestBody Tema tema){
-		return ResponseEntity.ok(repository.save(tema));
+	public ResponseEntity<Tema> editarTema(@Valid @RequestBody Tema temaModificado){
+		return servicesTema.cadastrarTema(temaModificado);
 	}
 	
 	@DeleteMapping("/deletar/{id}")
-	public void delete(@PathVariable long id) {
-		repository.deleteById(id);
+	public ResponseEntity<Object> deletarTema(@PathVariable long idTema) {
+		return servicesTema.removerTema(idTema);
 	}
 }

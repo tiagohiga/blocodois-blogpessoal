@@ -39,8 +39,12 @@ public class Postagem {
 	private Date date = new java.sql.Date(System.currentTimeMillis());
 	
 	@ManyToOne
-	@JsonIgnoreProperties("postagem")
-	private Tema tema;
+	@JsonIgnoreProperties("temaPostagens")
+	private Tema temaPostagem;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("listaPostagens")
+	private Usuario usuarioPostagem;
 
 	public long getId() {
 		return id;
@@ -66,11 +70,16 @@ public class Postagem {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public Tema getTema() {
-		return tema;
+	public Tema getTemaPostagem() {
+		return temaPostagem;
 	}
-	public void setTema(Tema tema) {
-		this.tema = tema;
+	public void setTemaPostagem(Tema temaPostagem) {
+		this.temaPostagem = temaPostagem;
 	}
-	
+	public Usuario getUsuarioPostagem() {
+		return usuarioPostagem;
+	}
+	public void setUsuarioPostagem(Usuario usuarioPostagem) {
+		this.usuarioPostagem = usuarioPostagem;
+	}
 }
